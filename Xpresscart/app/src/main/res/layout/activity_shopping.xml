@@ -1,0 +1,70 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#0099cc"
+    tools:context="com.xcart16.xpresscart.ShoppingActivity"
+    android:id="@+id/fullscreen_content">
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:id="@+id/center"
+        android:layout_centerInParent="true" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_toStartOf="@id/center"
+        android:background="@color/black_overlay">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            android:id="@+id/shopping_button_ll"
+            android:orientation="horizontal">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:text="@string/shopping_key_code"
+                android:id="@+id/key_code"
+                android:textSize="20sp"
+                />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:text="@string/shopping_help"
+                android:id="@+id/help_shopping"
+                android:textSize="20sp"/>
+        </LinearLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/black_overlay"
+            android:layout_above="@id/shopping_button_ll"
+            android:id="@+id/shopping_frame"/>
+
+    </RelativeLayout>
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/shopping_cart_list"
+        android:layout_above="@id/center"
+        android:layout_toRightOf="@id/center"/>
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/shopping_recommendation"
+        android:layout_below="@id/center"
+        android:layout_toRightOf="@id/center"/>
+
+</RelativeLayout>

@@ -1,49 +1,40 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#0099cc"
+    android:id="@+id/fullscreen_content"
     tools:context="com.xcart16.xpresscart.MainActivity">
 
-    <!-- The primary full-screen view. This can be replaced with whatever view
-         is needed to present your content, e.g. VideoView, SurfaceView,
-         TextureView, etc. -->
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_centerInParent="true"
+        android:id="@+id/center"/>
+
     <TextView
-        android:id="@+id/fullscreen_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_above="@id/center"
         android:gravity="center"
-        android:keepScreenOn="true"
-        android:text="@string/dummy_content"
         android:textColor="#33b5e5"
         android:textSize="50sp"
+        android:text="@string/welcome_message"
         android:textStyle="bold" />
 
-    <!-- This FrameLayout insets its children based on system windows using
-         android:fitsSystemWindows. -->
     <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fitsSystemWindows="true">
+        android:layout_width="300dp"
+        android:layout_height="100dp"
+        android:layout_below="@id/center"
+        android:background="@color/black_overlay"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/welcome_camera"/>
 
-        <RelativeLayout
-            android:id="@+id/fullscreen_content_controls"
-            style="?metaButtonBarStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|center_horizontal"
-            android:background="@color/black_overlay"
-            android:orientation="horizontal"
-            tools:ignore="UselessParent">
-
-            <Button
-                android:id="@+id/dummy_button"
-                style="?metaButtonBarButtonStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/dummy_button" />
-
-        </RelativeLayout>
-    </FrameLayout>
-
-</FrameLayout>
+    <Button
+        android:id="@+id/test_skip_welcome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:text="@string/welcome_test_skip"/>
+</RelativeLayout>
