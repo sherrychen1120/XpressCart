@@ -5,15 +5,19 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.FrameLayout;
+
+import com.google.android.gms.vision.CameraSource;
+import com.google.android.gms.vision.MultiProcessor;
+import com.google.android.gms.vision.barcode.BarcodeDetector;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
  * status bar and navigation/system bar) with user interaction.
  */
-public class ShoppingActivity extends AppCompatActivity {
+public class ShoppingActivity extends AppCompatActivity implements CallBack {
     /**
      * Some older devices needs a small delay between UI widget updates
      * and a change of the status and navigation bar.
@@ -21,6 +25,7 @@ public class ShoppingActivity extends AppCompatActivity {
     private static final int UI_ANIMATION_DELAY = 300;
     private final Handler mHideHandler = new Handler();
     private View mContentView;
+    private CameraSource cameraSource;
     private final Runnable mHidePart2Runnable = new Runnable() {
         @SuppressLint("InlinedApi")
         @Override
@@ -55,6 +60,8 @@ public class ShoppingActivity extends AppCompatActivity {
         mContentView = findViewById(R.id.fullscreen_content);
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+
+        cameraInit();
     }
 
     @Override
@@ -78,6 +85,16 @@ public class ShoppingActivity extends AppCompatActivity {
         mHideHandler.postDelayed(mHidePart2Runnable, UI_ANIMATION_DELAY);
     }
 
+    private void cameraInit() {
+        BarcodeDetector detector = (new BarcodeDetector.Builder(this)).build();
+        BarcodeTrackerFactory barcodeTrackerFactory = new BarcodeTrackerFactory(this);
+        detector.setProcessor(new MultiProcessor.Builder<>(barcodeTrackerFactory).build());
+        cameraSource = new CameraSource.Builder(this, detector).setAutoFocusEnabled(true).build();
+        CameraPreview preview = new CameraPreview(this, cameraSource);
+        FrameLayout cameraFrame = (FrameLayout) findViewById(R.id.shopping_frame);
+        cameraFrame.addView(preview);
+    }
+
     /**
      * Schedules a call to hide() in [delay] milliseconds, canceling any
      * previously scheduled calls.
@@ -85,5 +102,10 @@ public class ShoppingActivity extends AppCompatActivity {
     private void delayedHide(int delayMillis) {
         mHideHandler.removeCallbacks(mHideRunnable);
         mHideHandler.postDelayed(mHideRunnable, delayMillis);
+    }
+
+    @Override
+    public void callBack(int idfrom, Result result) {
+
     }
 }

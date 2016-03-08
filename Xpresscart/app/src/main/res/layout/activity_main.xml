@@ -24,7 +24,7 @@
 
     <FrameLayout
         android:layout_width="300dp"
-        android:layout_height="100dp"
+        android:layout_height="200dp"
         android:layout_below="@id/center"
         android:background="@color/black_overlay"
         android:layout_centerHorizontal="true"

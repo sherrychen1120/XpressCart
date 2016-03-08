@@ -1,10 +1,11 @@
 package com.xcart16.xpresscart;
 
 import android.content.Context;
-import android.hardware.Camera;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+
+import com.google.android.gms.vision.CameraSource;
 
 import java.io.IOException;
 
@@ -14,12 +15,12 @@ import java.io.IOException;
 public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback {
 
     private SurfaceHolder mHolder;
-    private Camera mCamera;
+    private CameraSource cameraSource;
+    private static String TAG = "CameraPreview";
 
-    public CameraPreview(Context context, Camera camera) {
+    public CameraPreview(Context context, CameraSource cameraSource) {
         super(context);
-        mCamera = camera;
-
+        this.cameraSource = cameraSource;
         // Install a SurfaceHolder.Callback so we get notified when the
         // underlying surface is created and destroyed.
         mHolder = getHolder();
@@ -31,25 +32,12 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
     public void surfaceCreated(SurfaceHolder holder) {
         // The Surface has been created, now tell the camera where to draw the preview.
         try {
-            Log.d("CameraPreview", holder.getSurfaceFrame().toString());
-            mCamera.setPreviewDisplay(holder);
-            mCamera.startPreview();
+            cameraSource.start(holder);
+        } catch (SecurityException s) {
+            Log.d(TAG, "shouldn't be here as permission should have been acquired by the main thread");
         } catch (IOException e) {
-            Log.d("CameraPreview", "Error setting camera preview: ", e);
+            Log.d(TAG, "Error setting camera preview: ", e);
         }
-    }
-
-    public static Camera getCameraInstance() {
-        Camera camera = null;
-        try {
-            camera = Camera.open();
-            if (camera == null) {
-                camera = Camera.open(0);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return camera;
     }
 
     public void surfaceDestroyed(SurfaceHolder holder) {
@@ -67,7 +55,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
 
         // stop preview before making changes
         try {
-            mCamera.stopPreview();
+            cameraSource.stop();
         } catch (Exception e){
             // ignore: tried to stop a non-existent preview
         }
@@ -77,11 +65,12 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
 
         // start preview with new settings
         try {
-            mCamera.setPreviewDisplay(mHolder);
-            mCamera.startPreview();
-
-        } catch (Exception e){
-            Log.d("CameraPreview", "Error starting camera preview: " + e.getMessage());
+            cameraSource.start(holder);
+        } catch (SecurityException s) {
+            Log.d(TAG, "shouldn't be here as permission should have been acquired by the main thread");
+        }
+        catch (Exception e){
+            Log.d(TAG, "Error starting camera preview: " + e.getMessage());
         }
     }
 }
