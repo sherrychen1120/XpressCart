@@ -3,6 +3,7 @@ package com.xcart16.xpresscart;
 import com.google.android.gms.vision.Detector;
 import com.google.android.gms.vision.Tracker;
 import com.google.android.gms.vision.barcode.Barcode;
+import com.xcart16.xpresscart.itemclass.BarcodeResult;
 
 /**
  * Created by Jason on 3/7/2016.

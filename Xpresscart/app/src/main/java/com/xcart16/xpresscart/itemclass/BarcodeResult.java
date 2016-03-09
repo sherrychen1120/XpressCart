@@ -1,4 +1,4 @@
-package com.xcart16.xpresscart;
+package com.xcart16.xpresscart.itemclass;
 
 import com.google.android.gms.vision.barcode.Barcode;
 

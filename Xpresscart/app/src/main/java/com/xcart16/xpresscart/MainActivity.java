@@ -19,10 +19,15 @@ import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.drive.Drive;
 import com.google.android.gms.vision.CameraSource;
 import com.google.android.gms.vision.MultiProcessor;
 import com.google.android.gms.vision.barcode.Barcode;
 import com.google.android.gms.vision.barcode.BarcodeDetector;
+import com.xcart16.xpresscart.itemclass.BarcodeResult;
+import com.xcart16.xpresscart.itemclass.Result;
+import com.xcart16.xpresscart.itemclass.User;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.

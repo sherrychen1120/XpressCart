@@ -8,10 +8,12 @@ import android.os.Handler;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
+import android.widget.ListView;
 
 import com.google.android.gms.vision.CameraSource;
 import com.google.android.gms.vision.MultiProcessor;
 import com.google.android.gms.vision.barcode.BarcodeDetector;
+import com.xcart16.xpresscart.itemclass.Result;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
@@ -26,6 +28,7 @@ public class ShoppingActivity extends AppCompatActivity implements CallBack {
     private final Handler mHideHandler = new Handler();
     private View mContentView;
     private CameraSource cameraSource;
+    private ListView cart;
     private final Runnable mHidePart2Runnable = new Runnable() {
         @SuppressLint("InlinedApi")
         @Override
@@ -60,6 +63,8 @@ public class ShoppingActivity extends AppCompatActivity implements CallBack {
         mContentView = findViewById(R.id.fullscreen_content);
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+
+        cart = (ListView) findViewById(R.id.shopping_cart_list);
 
         cameraInit();
     }
