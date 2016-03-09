@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity implements CallBack {
 
         if (code != ConnectionResult.SUCCESS) {
             Toast.makeText(this, "can't get google api", Toast.LENGTH_LONG).show();
-            finish();
+       //     finish();
         }
 
         setContentView(R.layout.activity_main);
