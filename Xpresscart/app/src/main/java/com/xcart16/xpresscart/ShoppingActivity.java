@@ -12,8 +12,13 @@ import android.widget.ListView;
 
 import com.google.android.gms.vision.CameraSource;
 import com.google.android.gms.vision.MultiProcessor;
+import com.google.android.gms.vision.barcode.Barcode;
 import com.google.android.gms.vision.barcode.BarcodeDetector;
+import com.xcart16.xpresscart.itemclass.BarcodeResult;
+import com.xcart16.xpresscart.itemclass.Item;
 import com.xcart16.xpresscart.itemclass.Result;
+
+import java.util.LinkedList;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
@@ -29,6 +34,8 @@ public class ShoppingActivity extends AppCompatActivity implements CallBack {
     private View mContentView;
     private CameraSource cameraSource;
     private ListView cart;
+    private ShoppingItemAdapter cartAdapter;
+    private boolean updatePause;
     private final Runnable mHidePart2Runnable = new Runnable() {
         @SuppressLint("InlinedApi")
         @Override
@@ -65,6 +72,10 @@ public class ShoppingActivity extends AppCompatActivity implements CallBack {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         cart = (ListView) findViewById(R.id.shopping_cart_list);
+        cartAdapter = new ShoppingItemAdapter(this, new LinkedList<Item>());
+        cart.setAdapter(cartAdapter);
+
+        updatePause = false;
 
         cameraInit();
     }
@@ -111,6 +122,35 @@ public class ShoppingActivity extends AppCompatActivity implements CallBack {
 
     @Override
     public void callBack(int idfrom, Result result) {
+        if (idfrom == MainActivity.BARCODE_TRACKER_ID && !updatePause) {
+            updatePause = true;
+            Barcode barcode = ((BarcodeResult) result).barcode;
+            //do some checking here of the barcode to get the correct item
+            cartAdapter.getList().add(findBarcode(barcode));
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    cartAdapter.notifyDataSetChanged();
+                    cart.setSelection(cartAdapter.getCount() - 1);
+                }
+            });
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } finally {
+                updatePause = false;
+            }
+        }
+    }
 
+    private Item findBarcode(Barcode barcode) {
+        return new Item(barcode.displayValue, barcode, 2.0, 2.99);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        cameraSource.release();
     }
 }
