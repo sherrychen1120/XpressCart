@@ -19,8 +19,6 @@ import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.drive.Drive;
 import com.google.android.gms.vision.CameraSource;
 import com.google.android.gms.vision.MultiProcessor;
 import com.google.android.gms.vision.barcode.Barcode;
@@ -160,6 +158,7 @@ public class MainActivity extends AppCompatActivity implements CallBack {
         //remember to add the user into the intent
         Intent intent = new Intent(this, ShoppingActivity.class);
         startActivity(intent);
+        finish();
     }
 
     @Override

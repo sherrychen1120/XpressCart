@@ -1,6 +1,9 @@
 package com.xcart16.xpresscart;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Intent;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -9,6 +12,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.google.android.gms.vision.CameraSource;
 import com.google.android.gms.vision.MultiProcessor;
@@ -19,6 +23,9 @@ import com.xcart16.xpresscart.itemclass.Item;
 import com.xcart16.xpresscart.itemclass.Result;
 
 import java.util.LinkedList;
+
+import io.card.payment.CardIOActivity;
+import io.card.payment.CreditCard;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
@@ -36,6 +43,8 @@ public class ShoppingActivity extends AppCompatActivity implements CallBack {
     private ListView cart;
     private ShoppingItemAdapter cartAdapter;
     private boolean updatePause;
+    private final Activity activity = this;
+    private static final int SCAN_REQUEST_CODE = 5;
     private final Runnable mHidePart2Runnable = new Runnable() {
         @SuppressLint("InlinedApi")
         @Override
@@ -76,6 +85,17 @@ public class ShoppingActivity extends AppCompatActivity implements CallBack {
         cart.setAdapter(cartAdapter);
 
         updatePause = false;
+
+        findViewById(R.id.pay).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent scanIntent = new Intent(activity, CardIOActivity.class);
+                scanIntent.putExtra(CardIOActivity.EXTRA_REQUIRE_EXPIRY, true);
+                scanIntent.putExtra(CardIOActivity.EXTRA_REQUIRE_CVV, true);
+                scanIntent.putExtra(CardIOActivity.EXTRA_REQUIRE_POSTAL_CODE, true);
+                startActivityForResult(scanIntent, SCAN_REQUEST_CODE);
+            }
+        });
 
         cameraInit();
     }
@@ -152,5 +172,17 @@ public class ShoppingActivity extends AppCompatActivity implements CallBack {
     public void onDestroy() {
         super.onDestroy();
         cameraSource.release();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == SCAN_REQUEST_CODE) {
+            if (data != null && data.hasExtra(CardIOActivity.EXTRA_SCAN_RESULT)) {
+                CreditCard scanResult = data.getParcelableExtra(CardIOActivity.EXTRA_SCAN_RESULT);
+
+            } else {
+                Toast.makeText(this, "Scan cancelled", Toast.LENGTH_LONG).show();
+            }
+        }
     }
 }
