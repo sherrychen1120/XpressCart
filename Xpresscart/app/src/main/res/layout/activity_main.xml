@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#0099cc"
+    android:background="@color/background"
     android:id="@+id/fullscreen_content"
     tools:context="com.xcart16.xpresscart.MainActivity">
 
@@ -11,23 +11,50 @@
         android:layout_height="0dp"
         android:layout_centerInParent="true"
         android:id="@+id/center"/>
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toStartOf="@id/center"
+        android:layout_alignParentStart="true"
+        android:layout_below="@id/center"
+        android:layout_marginStart="100dp"
+        android:layout_marginBottom="10dp"
+        android:id="@+id/welcome_rl">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/welcome_text_color"
+            android:textSize="80sp"
+            android:text="@string/welcome_message"
+            android:textStyle="bold"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true" />
+    </RelativeLayout>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@id/center"
-        android:gravity="center"
-        android:textColor="#33b5e5"
-        android:textSize="50sp"
-        android:text="@string/welcome_message"
-        android:textStyle="bold" />
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/welcome_rl"
+        android:layout_alignStart="@id/welcome_rl"
+        android:layout_marginBottom="10dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:textColor="@color/welcome_text_color"
+            android:textSize="40sp"
+            android:text="@string/welcome_scan" />
+    </RelativeLayout>
+
+
+
 
     <FrameLayout
-        android:layout_width="300dp"
-        android:layout_height="200dp"
-        android:layout_below="@id/center"
-        android:background="@color/black_overlay"
-        android:layout_centerHorizontal="true"
+        android:layout_width="400dp"
+        android:layout_height="400dp"
+        android:layout_toEndOf="@id/center"
+        android:layout_marginStart="30dp"
+        android:layout_centerVertical="true"
         android:id="@+id/welcome_camera"/>
 
     <Button

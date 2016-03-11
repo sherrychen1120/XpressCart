@@ -1,11 +1,13 @@
 <resources>
     <string name="app_name">Xpresscart</string>
 
-    <string name="welcome_message">Welcome to XpressCart!\nScan your credit card or your loyalty card to continue</string>
+    <string name="welcome_message">Welcome!</string>
+    <string name="welcome_scan">Please scan your\nloyalty card to continue</string>
     <string name="welcome_test_skip">Skip welcome (Testing)</string>
 
     <string name="title_activity_shopping">ShoppingActivity</string>
     <string name="shopping_help">Help</string>
     <string name="shopping_key_code">Key in item code</string>
+    <string name="shopping_pay">Pay</string>
 
 </resources>
