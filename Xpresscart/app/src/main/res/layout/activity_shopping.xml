@@ -17,37 +17,36 @@
         android:layout_height="match_parent"
         android:layout_toStartOf="@id/center">
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_alignParentBottom="true"
-            android:id="@+id/shopping_button_ll"
-            android:orientation="horizontal">
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="20dp"
-                android:text="@string/shopping_key_code"
-                android:id="@+id/key_code"
-                android:textSize="15sp"
-                />
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="20dp"
-                android:text="@string/shopping_help"
-                android:id="@+id/help_shopping"
-                android:textSize="15sp"/>
-        </LinearLayout>
-
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_above="@id/shopping_button_ll"
             android:id="@+id/shopping_frame"/>
+
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:id="@+id/frame_center"
+            android:layout_centerInParent="true" />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/shopping_key_code"
+            android:id="@+id/key_code"
+            android:layout_toStartOf="@id/frame_center"
+            android:layout_margin="20dp"
+            android:textSize="15sp"
+            android:layout_alignParentBottom="true" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/shopping_help"
+            android:layout_toEndOf="@id/frame_center"
+            android:id="@+id/help_shopping"
+            android:layout_margin="20dp"
+            android:textSize="15sp"
+            android:layout_alignParentBottom="true"/>
 
     </RelativeLayout>
 
@@ -58,11 +57,25 @@
         android:layout_above="@id/center"
         android:layout_toRightOf="@id/center"/>
 
-    <ListView
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/shopping_recommendation"
         android:layout_below="@id/center"
-        android:layout_toRightOf="@id/center"/>
+        android:layout_toRightOf="@id/center">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/pay"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentTop="true"
+            android:text="@string/shopping_pay"/>
+
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/shopping_recommendation"
+            android:layout_below="@id/pay"/>
+    </RelativeLayout>
 
 </RelativeLayout>
