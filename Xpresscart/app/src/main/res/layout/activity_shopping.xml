@@ -130,6 +130,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_below="@id/top_banner"
+                android:id="@+id/remove_wrapper"
                 tools:visibility="gone">
                 <FrameLayout
                     android:layout_width="match_parent"
@@ -582,6 +583,17 @@
                     android:textSize="16sp"
                     android:textColor="@android:color/black"
                     android:id="@+id/recommend_popup_tv"/>
+                <Button
+                    android:layout_width="100dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/fnp_button"
+                    android:layout_centerHorizontal="true"
+                    android:text="@string/ok"
+                    android:textColor="@android:color/white"
+                    android:layout_below="@id/recommend_popup_tv"
+                    android:layout_marginTop="10dp"
+                    android:id="@+id/recommend_ok"
+                    android:textSize="20sp"/>
             </RelativeLayout>
 
             <RelativeLayout
@@ -612,17 +624,6 @@
             </RelativeLayout>
 
         </RelativeLayout>
-
-        <Button
-            android:layout_width="100dp"
-            android:layout_height="40dp"
-            android:background="@drawable/fnp_button"
-            android:layout_centerHorizontal="true"
-            android:text="@string/ok"
-            android:textColor="@android:color/white"
-            android:layout_below="@id/pop_up_wrapper"
-            android:id="@+id/recommend_ok"
-            android:textSize="20sp"/>
 
     </RelativeLayout>
 

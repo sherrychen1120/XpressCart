@@ -21,6 +21,7 @@ public class Item {
     private Set<Item> suggestion;
     private String location;
     private Bitmap bitmap;
+    private String customQuantity;
 
     public Item (String name, String barcode, double weight, double price) {
         this.barcode = barcode;
@@ -84,5 +85,13 @@ public class Item {
 
     public Bitmap getBitmap() {
         return bitmap;
+    }
+
+    public String getCustomQuantity() {
+        return customQuantity;
+    }
+
+    public void setCustomQuantity (String quantity) {
+        customQuantity = quantity;
     }
 }

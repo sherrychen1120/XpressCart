@@ -93,6 +93,11 @@ public class MainActivity extends AppCompatActivity implements CallBack {
         findViewById(R.id.test_skip_welcome).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                try {
+                    Thread.sleep(5000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 startMain(null);
             }
         });
@@ -159,7 +164,12 @@ public class MainActivity extends AppCompatActivity implements CallBack {
     private void startMain(User user) {
         //remember to add the user into the intent
         Log.d("StartMain", "here");
-        cameraSource.release();
+        try {
+            cameraSource.release();
+        } catch (NullPointerException e) {
+            //ignored
+            return;
+        }
         Intent intent = new Intent(this, ShoppingActivity.class);
         startActivity(intent);
         finish();

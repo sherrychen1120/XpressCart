@@ -19,7 +19,7 @@
     <string name="recommended_title">Recommended for You</string>
 
     <string name="confirm_card">Confirm your card information</string>
-    <string name="confirm_zip">Please enter zip code to finish payment.</string>
+    <string name="confirm_ok">Click on OK to finish payment</string>
     <string name="card_no">Card No.</string>
     <string name="expiry_date">Expiration Date:</string>
     <string name="card_holder">Cardholder:</string>
@@ -28,10 +28,10 @@
     <string name="error">ERROR</string>
     <string name="un_scanned">Please remove the un-scanned\nitem from the cart.</string>
 
-    <string name="success">SUCCESS</string>
-    <string name="success_message">Your shopping receipt has been set to your email.</string>
-    <string name="thanks">Thank you for shopping at</string>
-    <string name="store_name_buffer">the Fresh Grocer</string>
+    <string name="success">SUCCESS!</string>
+    <string name="success_message">Your shopping receipt has been sent to your email.</string>
+    <string name="thanks">THANK YOU\nfor shopping at</string>
+    <string name="store_name_buffer">the Fresh Grocer!</string>
     <string name="finish">Finish</string>
 
     <string name="back">back</string>

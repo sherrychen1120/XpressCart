@@ -33,6 +33,13 @@ public class ShoppingItemAdapter extends ArrayAdapter<Item> {
         Item item = getItem(position);
         ((TextView) view.findViewById(R.id.shopping_item_name)).setText(item.getName());
         ((TextView) view.findViewById(R.id.shopping_item_price)).setText(item.getDisplayPrice());
+        if (item.getCustomQuantity() != null) {
+            TextView quant = (TextView) view.findViewById(R.id.shopping_quant);
+            quant.setVisibility(View.VISIBLE);
+            quant.setText(item.getCustomQuantity());
+        } else {
+            view.findViewById(R.id.shopping_quant).setVisibility(View.GONE);
+        }
         return view;
     }
 

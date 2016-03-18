@@ -34,6 +34,7 @@ import android.widget.Toast;
 import com.felhr.usbserial.UsbSerialDevice;
 import com.felhr.usbserial.UsbSerialInterface;
 import com.google.android.gms.vision.CameraSource;
+import com.google.android.gms.vision.Frame;
 import com.google.android.gms.vision.MultiProcessor;
 import com.google.android.gms.vision.barcode.Barcode;
 import com.google.android.gms.vision.barcode.BarcodeDetector;
@@ -106,6 +107,7 @@ public class ShoppingActivity extends AppCompatActivity implements CallBack {
     private LinearLayout recommend;
     private int code;
     private TextView code_input;
+    private boolean error;
 
 //    private UsbManager usbManager;
 //    private UsbDevice device;
@@ -170,6 +172,7 @@ public class ShoppingActivity extends AppCompatActivity implements CallBack {
             @Override
             public void onClick(View v) {
                 addItemToCart(findItemWithCode(code));
+                idcount++;
                 shoppingwrapper.setVisibility(View.VISIBLE);
                 keywrapper.setVisibility(View.GONE);
             }
@@ -185,7 +188,11 @@ public class ShoppingActivity extends AppCompatActivity implements CallBack {
         findViewById(R.id.confirm_ok).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                cameraSource.release();
+                try {
+                    cameraSource.release();
+                } catch (NullPointerException e) {
+                    //ignored, it's just a check
+                }
                 startActivity(new Intent(activity, FinishActivity.class));
             }
         });
@@ -206,6 +213,7 @@ public class ShoppingActivity extends AppCompatActivity implements CallBack {
         amount = 0;
         totalAmount = (TextView) findViewById(R.id.total_amount);
         code = 0;
+        error = false;
     }
 
     private void hardCodeArrayInit() {
@@ -214,14 +222,17 @@ public class ShoppingActivity extends AppCompatActivity implements CallBack {
         hardCodeArray[0].setBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.cherrio_oat));
         hardCodeArray[1] = new Item("Tide Sport Detergent (46FO)", "0037000875154", 3.52, 9.89);
         hardCodeArray[1].setBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.tide_detergent));
-        hardCodeArray[2] = new Item("APPLE: McIntosh, large", "4019", 1, 1.49);
+        hardCodeArray[2] = new Item("APPLE: McIntosh, large", "4019", 2, 2.98);
         hardCodeArray[2].setBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.apple));
+        hardCodeArray[2].setCustomQuantity("2.00lb  @$1.49/lb");
         hardCodeArray[3] = new Item("Scott Tissue 4PK", "0054000101830", 1.6, 4.49);
         hardCodeArray[3].setBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.tissue));
         hardCodeArray[4] = new Item("HS Itchy Scalp Care Shampoo (13.5FO)", "0037000062059", 0.79, 4.99);
         hardCodeArray[4].setBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.hs_shampoo));
+        hardCodeArray[4].setLocation("Lane 1 Shelf 2-2");
         hardCodeArray[5] = new Item("HS Itchy Scalp Care Conditioner(13.5FO)", "0037000473640", 0.82, 4.99);
         hardCodeArray[5].setBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.hs_conditioner));
+        hardCodeArray[5].setLocation("Lane 1 Shelf 2-2");
 
         hardCodeArray[1].addSuggestion(hardCodeArray[4]);
         hardCodeArray[1].addSuggestion(hardCodeArray[5]);
@@ -354,23 +365,32 @@ public class ShoppingActivity extends AppCompatActivity implements CallBack {
 
     protected void help() {
         if (idcount >= 7) {
+            cameraSource.release();
             Intent intent = new Intent(this, ShoppingActivity.class);
             startActivity(intent);
             finish();
             return;
         }
-        if (idcount == 5) {
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        if (idcount == 2) {
             idcount ++;
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    findViewById(R.id.shopping_wrapper).setVisibility(View.GONE);
-                    findViewById(R.id.banner_wrapper).setVisibility(View.VISIBLE);
+                    cameraSource.release();
+                    shoppingwrapper.setVisibility(View.GONE);
+                    bannerwrapper.setVisibility(View.VISIBLE);
+                    FrameLayout frame = (FrameLayout) findViewById(R.id.shopping_frame);
+                    frame.getChildAt(0).setVisibility(View.GONE);
+                    frame.setVisibility(View.GONE);
                     TextView title = (TextView) findViewById(R.id.top_banner_title);
                     title.setText(R.string.removed_item);
                     TextView main = (TextView) findViewById(R.id.top_banner_tv);
                     main.setText(R.string.removed_scan);
-                    cameraSource.release();
                     BarcodeDetector detector = (new BarcodeDetector.Builder(activity)).build();
                     BarcodeTrackerFactory barcodeTrackerFactory = new BarcodeTrackerFactory(activity);
                     detector.setProcessor(new MultiProcessor.Builder<>(barcodeTrackerFactory).build());
@@ -381,13 +401,26 @@ public class ShoppingActivity extends AppCompatActivity implements CallBack {
                     findViewById(R.id.remove_help).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
+                            try {
+                                Thread.sleep(5000);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
                                     cameraSource.release();
-                                    findViewById(R.id.shopping_wrapper).setVisibility(View.VISIBLE);
-                                    findViewById(R.id.banner_wrapper).setVisibility(View.GONE);
-                                    cartAdapter.getList().remove(hardCodeArray[4]);
+                                    findViewById(R.id.shopping_frame).setVisibility(View.VISIBLE);
+                                    shoppingwrapper.setVisibility(View.VISIBLE);
+                                    FrameLayout frame = (FrameLayout) findViewById(R.id.remove_frame);
+                                    frame.getChildAt(0).setVisibility(View.GONE);
+                                    bannerwrapper.setVisibility(View.GONE);
+                                    cartAdapter.getList().remove(hardCodeArray[1]);
+                                    amount -= hardCodeArray[1].getPrice();
+                                    cartAdapter.notifyDataSetChanged();
+                                    NumberFormat formatter = new DecimalFormat("#0.00");
+                                    StringBuilder sb = new StringBuilder().append("Total: $").append(formatter.format(amount));
+                                    totalAmount.setText(sb.toString());
                                     cameraInit();
                                 }
                             });
@@ -396,16 +429,46 @@ public class ShoppingActivity extends AppCompatActivity implements CallBack {
                 }
             });
             return;
-        }
-        try {
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        }else if (idcount == 6 && !error) {
+            try {
+                Thread.sleep(10000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    shoppingwrapper.setVisibility(View.GONE);
+                    curtain.setVisibility(View.VISIBLE);
+                    curtain.setBackgroundResource(R.color.black_overlay);
+                    dialog.setVisibility(View.VISIBLE);
+                    findViewById(R.id.recommend_wrapper).setVisibility(View.GONE);
+                    findViewById(R.id.error_wrapper).setVisibility(View.VISIBLE);
+                    mContentView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            try {
+                                Thread.sleep(5000);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                            findViewById(R.id.error_wrapper).setVisibility(View.GONE);
+                            findViewById(R.id.recommend_wrapper).setVisibility(View.VISIBLE);
+                            dialog.setVisibility(View.GONE);
+                            curtain.setVisibility(View.GONE);
+                            shoppingwrapper.setVisibility(View.VISIBLE);
+                            mContentView.setOnClickListener(null);
+                            error = true;
+                        }
+                    });
+                }
+            });
+            return;
         }
         ToneGenerator toneG = new ToneGenerator(AudioManager.STREAM_ALARM, 100);
         toneG.startTone(ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD, 200);
         int id = idcount;
-        if (idcount >= 5) {
+        if (idcount >= 2) {
             id = idcount - 1;
         }
         idcount++;
@@ -596,7 +659,7 @@ public class ShoppingActivity extends AppCompatActivity implements CallBack {
             }
         }
         int id = idcount;
-        if (idcount >= 5) {
+        if (idcount >= 2) {
             id = idcount - 1;
         }
         idcount++;
@@ -613,7 +676,7 @@ public class ShoppingActivity extends AppCompatActivity implements CallBack {
         }
         int id = idcount;
         if (item == null) {
-            if (idcount >= 5) {
+            if (idcount >= 2) {
                 id = idcount - 1;
             }
         }
@@ -625,7 +688,11 @@ public class ShoppingActivity extends AppCompatActivity implements CallBack {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        cameraSource.release();
+        try {
+            cameraSource.release();
+        } catch (NullPointerException e) {
+            //ignored
+        }
     }
 
     @Override
@@ -633,6 +700,18 @@ public class ShoppingActivity extends AppCompatActivity implements CallBack {
         if (requestCode == SCAN_REQUEST_CODE) {
             if (data != null && data.hasExtra(CardIOActivity.EXTRA_SCAN_RESULT)) {
                 CreditCard scanResult = data.getParcelableExtra(CardIOActivity.EXTRA_SCAN_RESULT);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        shoppingwrapper.setVisibility(View.GONE);
+                        bannerwrapper.setVisibility(View.VISIBLE);
+                        findViewById(R.id.remove_wrapper).setVisibility(View.GONE);
+                        findViewById(R.id.confirm_main_wrapper).setVisibility(View.VISIBLE);
+                        ((TextView)findViewById(R.id.top_banner_title)).setText(R.string.confirm_card);
+                        ((TextView)findViewById(R.id.top_banner_tv)).setText(R.string.confirm_ok);
+                    }
+                });
+                delayedHide(5000);
             } else {
                 try {
                     cameraSource.start();

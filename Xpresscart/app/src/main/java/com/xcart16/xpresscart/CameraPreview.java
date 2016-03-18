@@ -37,6 +37,8 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
             Log.d(TAG, "shouldn't be here as permission should have been acquired by the main thread");
         } catch (IOException e) {
             Log.d(TAG, "Error setting camera preview: ", e);
+        } catch (Exception e) {
+            Log.d(TAG, "ERROR", e);
         }
     }
 

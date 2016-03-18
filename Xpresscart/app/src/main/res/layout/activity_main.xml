@@ -63,8 +63,7 @@
         android:layout_height="40dp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:text="@string/welcome_test_skip"
         android:textColor="@android:color/white"
-        android:background="@drawable/fnp_button"
-        android:layout_margin="10dp"/>
+        android:background="@color/background"/>
+
 </RelativeLayout>

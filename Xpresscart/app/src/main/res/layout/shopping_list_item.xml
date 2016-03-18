@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:padding="10dp">
 
     <TextView
@@ -9,13 +10,29 @@
         android:layout_height="wrap_content"
         android:id="@+id/shopping_item_name"
         android:layout_alignParentLeft="true"
-        android:textColor="@android:color/black"/>
+        android:textColor="@android:color/black"
+        android:textSize="18sp"
+        tools:text="apple"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/shopping_item_name"
+        android:id="@+id/shopping_quant"
+        android:textSize="20sp"
+        android:layout_marginStart="18dp"
+        android:textColor="@android:color/black"
+        tools:text="2.00lb blah blah"
+        android:visibility="gone"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/shopping_item_price"
         android:layout_alignParentRight="true"
-        android:textColor="@android:color/black"/>
+        android:textColor="@android:color/black"
+        android:layout_alignTop="@id/shopping_quant"
+        android:textSize="18sp"
+        tools:text="$2.98"/>
 
 </RelativeLayout>
