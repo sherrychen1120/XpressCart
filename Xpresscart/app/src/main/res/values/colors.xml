@@ -6,5 +6,9 @@
     <color name="background">#E2DED3</color>
     <color name="welcome_text_color">#264E1F</color>
 
+    <color name="list_background">#F1F5DA</color>
+    <color name="recommend_background">#559D3F</color>
+    <color name="button_background">#C0D53A</color>
+
     <color name="black_overlay">#66000000</color>
 </resources>

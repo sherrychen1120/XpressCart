@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:id="@+id/fullscreen_content"
+    tools:context="com.xcart16.xpresscart.FinishActivity">
+
+    <Button
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/fnp_button"
+        android:layout_marginEnd="30dp"
+        android:layout_marginBottom="30dp"
+        android:text="@string/shopping_help"
+        android:textColor="@android:color/white"
+        android:textSize="20sp"
+        android:id="@+id/finish_help"/>
+
+    <Button
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:text="@string/finish"
+        android:textColor="@android:color/white"
+        android:textSize="20sp"
+        android:layout_toStartOf="@id/finish_help"
+        android:background="@drawable/fnp_button"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="30dp"
+        android:layout_marginEnd="30dp"
+        android:id="@+id/finish_finish"/>
+</RelativeLayout>

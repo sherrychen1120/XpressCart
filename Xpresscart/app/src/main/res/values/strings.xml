@@ -3,11 +3,39 @@
 
     <string name="welcome_message">Welcome!</string>
     <string name="welcome_scan">Please scan your\nloyalty card to continue</string>
-    <string name="welcome_test_skip">Skip welcome (Testing)</string>
+    <string name="welcome_test_skip">Skip welcome</string>
 
     <string name="title_activity_shopping">ShoppingActivity</string>
     <string name="shopping_help">Help</string>
     <string name="shopping_key_code">Key in item code</string>
-    <string name="shopping_pay">Pay</string>
+    <string name="shopping_pay">Finish &amp; Pay</string>
+
+    <string name="total_pay">Total: </string>
+    <string name="cart_empty">Your cart is empty.</string>
+    <string name="cart_empty_scan">Please scan your first item before putting it into the cart.</string>
+    <string name="removed_item">You have removed an item from your cart.</string>
+    <string name="removed_scan">Please scan the item to remove it from the list</string>
+
+    <string name="recommended_title">Recommended for You</string>
+
+    <string name="confirm_card">Confirm your card information</string>
+    <string name="confirm_zip">Please enter zip code to finish payment.</string>
+    <string name="card_no">Card No.</string>
+    <string name="expiry_date">Expiration Date:</string>
+    <string name="card_holder">Cardholder:</string>
+    <string name="ok">ok</string>
+
+    <string name="error">ERROR</string>
+    <string name="un_scanned">Please remove the un-scanned\nitem from the cart.</string>
+
+    <string name="success">SUCCESS</string>
+    <string name="success_message">Your shopping receipt has been set to your email.</string>
+    <string name="thanks">Thank you for shopping at</string>
+    <string name="store_name_buffer">the Fresh Grocer</string>
+    <string name="finish">Finish</string>
+
+    <string name="back">back</string>
+
+    <string name="title_activity_finish">finish</string>
 
 </resources>

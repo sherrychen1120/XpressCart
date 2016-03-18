@@ -19,3 +19,6 @@ local.properties
 # android studio
 .idea/
 /*/local.properties
+
+#mock up
+Mockup/

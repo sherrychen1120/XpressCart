@@ -4,6 +4,8 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.media.AudioManager;
+import android.media.ToneGenerator;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -156,6 +158,8 @@ public class MainActivity extends AppCompatActivity implements CallBack {
 
     private void startMain(User user) {
         //remember to add the user into the intent
+        Log.d("StartMain", "here");
+        cameraSource.release();
         Intent intent = new Intent(this, ShoppingActivity.class);
         startActivity(intent);
         finish();
@@ -164,7 +168,11 @@ public class MainActivity extends AppCompatActivity implements CallBack {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        cameraSource.release();
+        try {
+            cameraSource.release();
+        } catch (NullPointerException e) {
+            //ignored
+        }
     }
 
     @Override
@@ -176,6 +184,8 @@ public class MainActivity extends AppCompatActivity implements CallBack {
             Log.d("Barcode", barcode.displayValue);
             //do something here and then start main
             startMain(null);
+            ToneGenerator toneG = new ToneGenerator(AudioManager.STREAM_ALARM, 100);
+            toneG.startTone(ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD, 200);
             finish();
         }
     }

@@ -1,81 +1,629 @@
+<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#0099cc"
-    tools:context="com.xcart16.xpresscart.ShoppingActivity"
-    android:id="@+id/fullscreen_content">
+    android:id="@+id/fullscreen_content"
+    tools:context="com.xcart16.xpresscart.ShoppingActivity">
 
-    <View
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:id="@+id/center"
-        android:layout_centerInParent="true" />
+    <RelativeLayout
+        android:layout_width="600dp"
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:background="@color/welcome_text_color"
+        android:id="@+id/shopping_rl">
+
+        <!-- Left layout, shopping wrapper -->
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/shopping_wrapper"
+            tools:visibility="invisible">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="420dp"
+                android:layout_alignParentStart="true"
+                android:background="@color/welcome_text_color"
+                android:id="@+id/shopping_frame"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/shopping_frame"
+                android:background="@color/recommend_background"
+                android:layout_alignEnd="@id/shopping_frame"
+                android:id="@+id/shopping_recommendation">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/recommend_tv"
+                    android:text="@string/recommended_title"
+                    android:textColor="@android:color/white"
+                    android:textSize="26sp"
+                    android:layout_margin="20dp"
+                    android:textStyle="bold"/>
+
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/recommend_scroll"
+                    android:layout_below="@id/recommend_tv">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="20dp"
+                        android:id="@+id/recommend_ll"
+                        android:orientation="horizontal"/>
+
+                </HorizontalScrollView>
+
+            </RelativeLayout>
+
+            <Button
+                android:layout_width="100dp"
+                android:layout_height="40dp"
+                android:layout_marginBottom="20dp"
+                android:layout_marginEnd="30dp"
+                android:layout_alignParentEnd="true"
+                android:background="@drawable/fnp_button"
+                android:text="@string/shopping_help"
+                android:textColor="@android:color/white"
+                android:id="@+id/help_shopping"
+                android:layout_above="@id/shopping_recommendation"
+                android:textSize="20sp"/>
+
+            <Button
+                android:layout_width="250dp"
+                android:layout_height="40dp"
+                android:layout_alignBottom="@id/help_shopping"
+                android:layout_toStartOf="@id/help_shopping"
+                android:background="@drawable/fnp_button"
+                android:layout_marginEnd="30dp"
+                android:text="@string/shopping_key_code"
+                android:textColor="@android:color/white"
+                android:textSize="20sp"
+                android:id="@+id/key_code"
+                />
+        </RelativeLayout>
+
+        <!-- banner layout wrapper -->
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/banner_wrapper"
+            android:visibility="gone"
+            tools:visibility="visible"
+            >
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:background="@color/recommend_background"
+                android:id="@+id/top_banner">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/white"
+                    android:textSize="40sp"
+                    android:text="@string/removed_item"
+                    android:id="@+id/top_banner_title"
+                    android:layout_margin="30dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/top_banner_title"
+                    android:layout_alignStart="@id/top_banner_title"
+                    android:textColor="@android:color/white"
+                    android:text="@string/removed_scan"
+                    android:id="@+id/top_banner_tv"
+                    android:textSize="26sp"/>
+
+            </RelativeLayout>
+
+            <!-- remove -->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/top_banner"
+                tools:visibility="gone">
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/remove_frame" />
+
+                <Button
+                    android:layout_width="100dp"
+                    android:layout_height="40dp"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginEnd="30dp"
+                    android:layout_alignParentEnd="true"
+                    android:background="@drawable/fnp_button"
+                    android:text="@string/shopping_help"
+                    android:textColor="@android:color/white"
+                    android:layout_alignParentBottom="true"
+                    android:id="@+id/remove_help"
+                    android:textSize="20sp"/>
+            </RelativeLayout>
+
+            <!-- confirm -->
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/top_banner"
+                android:id="@+id/confirm_main_wrapper"
+                android:visibility="gone"
+                tools:visibility="visible">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/card_no"
+                    android:textColor="@android:color/white"
+                    android:textSize="30sp"
+                    android:layout_marginStart="40dp"
+                    android:layout_marginTop="40dp"
+                    android:id="@+id/card_no_title"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/white"
+                    android:textSize="30sp"
+                    android:layout_below="@id/card_no_title"
+                    android:layout_marginTop="5dp"
+                    android:text="XXXX-XXXX-XXXX-3729"
+                    android:layout_alignStart="@id/card_no_title"
+                    android:id="@+id/card_no"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/white"
+                    android:textSize="30sp"
+                    android:text="@string/expiry_date"
+                    android:layout_alignStart="@id/card_no_title"
+                    android:layout_below="@id/card_no"
+                    android:layout_marginTop="40dp"
+                    android:id="@+id/expiry_date_title"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/white"
+                    android:textSize="30sp"
+                    android:layout_below="@id/expiry_date_title"
+                    android:layout_marginTop="5dp"
+                    android:text="03/19"
+                    android:layout_alignStart="@id/expiry_date_title"
+                    android:id="@+id/exp_date"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/white"
+                    android:textSize="30sp"
+                    android:text="@string/card_holder"
+                    android:layout_alignStart="@id/card_no_title"
+                    android:layout_below="@id/exp_date"
+                    android:layout_marginTop="40dp"
+                    android:id="@+id/cardholder_title"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/white"
+                    android:textSize="30sp"
+                    android:layout_below="@id/cardholder_title"
+                    android:layout_marginTop="5dp"
+                    android:text="SHERRY CHEN"
+                    android:layout_alignStart="@id/expiry_date_title"
+                    android:id="@+id/card_holder"/>
+
+                <Button
+                    android:layout_width="120dp"
+                    android:layout_height="50dp"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginEnd="40dp"
+                    android:layout_alignParentEnd="true"
+                    android:background="@drawable/fnp_button"
+                    android:text="@string/ok"
+                    android:textColor="@android:color/white"
+                    android:layout_alignParentBottom="true"
+                    android:id="@+id/confirm_ok"
+                    android:textSize="26sp"/>
+
+                <Button
+                    android:layout_width="120dp"
+                    android:layout_height="50dp"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginEnd="40dp"
+                    android:layout_toStartOf="@id/confirm_ok"
+                    android:background="@drawable/fnp_button"
+                    android:layout_alignParentBottom="true"
+                    android:id="@+id/confirm_help"
+                    android:text="@string/shopping_help"
+                    android:textColor="@android:color/white"
+                    android:textSize="26sp"/>
+
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+        <!-- key in code -->
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            android:id="@+id/key_wrapper">
+
+            <TextView
+                android:layout_width="250dp"
+                android:layout_height="60dp"
+                android:layout_marginTop="100dp"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/input_box"
+                android:id="@+id/code_input"
+                tools:text="4019"
+                android:textColor="@android:color/black"
+                android:textSize="32sp"
+                android:gravity="center"/>
+            
+            <Button
+                android:layout_width="80dp"
+                android:layout_height="60dp"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/key_background"
+                android:layout_below="@id/code_input"
+                android:id="@+id/code_2"
+                android:text="2"
+                android:textSize="32sp"
+                android:gravity="center"
+                android:textColor="@android:color/black"
+                android:layout_marginTop="80dp"/>
+
+            <Button
+                android:layout_width="80dp"
+                android:layout_height="60dp"
+                android:layout_toLeftOf="@id/code_2"
+                android:background="@drawable/key_background"
+                android:layout_below="@id/code_input"
+                android:id="@+id/code_1"
+                android:text="1"
+                android:textSize="32sp"
+                android:gravity="center"
+                android:textColor="@android:color/black"
+                android:layout_marginTop="80dp"/>
+
+            <Button
+                android:layout_width="80dp"
+                android:layout_height="60dp"
+                android:layout_toRightOf="@id/code_2"
+                android:background="@drawable/key_background"
+                android:layout_below="@id/code_input"
+                android:id="@+id/code_3"
+                android:text="3"
+                android:textSize="32sp"
+                android:gravity="center"
+                android:textColor="@android:color/black"
+                android:layout_marginTop="80dp"/>
+
+            <Button
+                android:layout_width="80dp"
+                android:layout_height="60dp"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/key_background"
+                android:layout_below="@id/code_2"
+                android:id="@+id/code_5"
+                android:text="5"
+                android:textSize="32sp"
+                android:gravity="center"
+                android:textColor="@android:color/black"/>
+
+            <Button
+                android:layout_width="80dp"
+                android:layout_height="60dp"
+                android:layout_toLeftOf="@id/code_5"
+                android:background="@drawable/key_background"
+                android:layout_below="@id/code_2"
+                android:id="@+id/code_4"
+                android:text="4"
+                android:textSize="32sp"
+                android:gravity="center"
+                android:textColor="@android:color/black"/>
+
+            <Button
+                android:layout_width="80dp"
+                android:layout_height="60dp"
+                android:layout_toRightOf="@id/code_5"
+                android:background="@drawable/key_background"
+                android:layout_below="@id/code_2"
+                android:id="@+id/code_6"
+                android:text="6"
+                android:textSize="32sp"
+                android:gravity="center"
+                android:textColor="@android:color/black"/>
+
+            <Button
+                android:layout_width="80dp"
+                android:layout_height="60dp"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/key_background"
+                android:layout_below="@id/code_5"
+                android:id="@+id/code_8"
+                android:text="8"
+                android:textSize="32sp"
+                android:gravity="center"
+                android:textColor="@android:color/black"/>
+
+            <Button
+                android:layout_width="80dp"
+                android:layout_height="60dp"
+                android:layout_toLeftOf="@id/code_8"
+                android:background="@drawable/key_background"
+                android:layout_below="@id/code_5"
+                android:id="@+id/code_7"
+                android:text="7"
+                android:textSize="32sp"
+                android:gravity="center"
+                android:textColor="@android:color/black"/>
+
+            <Button
+                android:layout_width="80dp"
+                android:layout_height="60dp"
+                android:layout_toRightOf="@id/code_8"
+                android:background="@drawable/key_background"
+                android:layout_below="@id/code_5"
+                android:id="@+id/code_9"
+                android:text="9"
+                android:textSize="32sp"
+                android:gravity="center"
+                android:textColor="@android:color/black"/>
+
+            <Button
+                android:layout_width="80dp"
+                android:layout_height="60dp"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/key_background"
+                android:layout_below="@id/code_8"
+                android:id="@+id/code_0"
+                android:text="0"
+                android:textSize="32sp"
+                android:gravity="center"
+                android:textColor="@android:color/black"/>
+
+            <ImageButton
+                android:layout_width="80dp"
+                android:layout_height="60dp"
+                android:layout_toLeftOf="@id/code_0"
+                android:background="@drawable/key_background"
+                android:layout_below="@id/code_8"
+                android:id="@+id/code_backspace"
+                android:src="@drawable/ic_backspace_black_24dp"
+                android:gravity="center"
+                android:textColor="@android:color/black"/>
+
+            <Button
+                android:layout_width="80dp"
+                android:layout_height="60dp"
+                android:layout_toRightOf="@id/code_0"
+                android:background="@drawable/key_background"
+                android:layout_below="@id/code_8"
+                android:id="@+id/code_ok"
+                android:text="@string/ok"
+                android:textSize="32sp"
+                android:gravity="center"
+                android:textColor="@android:color/black"/>
+
+            <Button
+                android:layout_width="100dp"
+                android:layout_height="40dp"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentStart="true"
+                android:layout_margin="20dp"
+                android:background="@drawable/fnp_button"
+                android:textColor="@android:color/white"
+                android:textSize="20sp"
+                android:text="@string/back"
+                android:id="@+id/code_back"/>
+            <Button
+                android:layout_width="100dp"
+                android:layout_height="40dp"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentEnd="true"
+                android:layout_margin="20dp"
+                android:background="@drawable/fnp_button"
+                android:textColor="@android:color/white"
+                android:textSize="20sp"
+                android:text="@string/shopping_help"
+                android:id="@+id/code_help"/>
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <!--List on the right-->
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_toStartOf="@id/center">
+        android:background="@color/list_background"
+        android:layout_toRightOf="@id/shopping_rl">
 
-        <FrameLayout
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/shopping_frame"/>
+            android:layout_height="100dp"
+            android:orientation="horizontal"
+            android:layout_alignParentBottom="true"
+            tools:visibility="gone"
+            android:id="@+id/pay_ll">
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/fnp_button"
+                android:text="@string/shopping_pay"
+                android:layout_margin="20dp"
+                android:textSize="23sp"
+                android:padding="5dp"
+                android:textColor="@android:color/white"
+                android:id="@+id/pay_btn"
+                android:layout_weight="1"/>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textSize="23sp"
+                android:textColor="@android:color/black"
+                android:id="@+id/total_amount"
+                tools:text="Total: $36.00"/>
+        </LinearLayout>
 
 
         <View
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:id="@+id/frame_center"
-            android:layout_centerInParent="true" />
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/shopping_key_code"
-            android:id="@+id/key_code"
-            android:layout_toStartOf="@id/frame_center"
-            android:layout_margin="20dp"
-            android:textSize="15sp"
-            android:layout_alignParentBottom="true" />
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:background="@color/recommend_background"
+            android:layout_above="@id/pay_ll"
+            android:id="@+id/shopping_line"/>
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/shopping_help"
-            android:layout_toEndOf="@id/frame_center"
-            android:id="@+id/help_shopping"
-            android:layout_margin="20dp"
-            android:textSize="15sp"
-            android:layout_alignParentBottom="true"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@id/shopping_line"
+            android:id="@+id/shopping_cart_ll">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/cart_empty"
+                android:textColor="@color/welcome_text_color"
+                android:layout_marginLeft="30dp"
+                android:textSize="36sp"
+                android:textStyle="bold"
+                android:layout_margin="25dp"
+                android:id="@+id/empty_tv_1"
+                />
+
+            <ListView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/shopping_cart_list"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="10dp"
+                android:layout_below="@id/empty_tv_1"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/empty_tv_1"
+                android:id="@+id/empty_tv_2"
+                android:text="@string/cart_empty_scan"
+                android:textSize="28sp"
+                android:textColor="@android:color/black"
+                android:layout_alignStart="@id/empty_tv_1"
+                android:layout_alignEnd="@id/empty_tv_1"
+                />
+        </RelativeLayout>
 
     </RelativeLayout>
 
-    <ListView
+    <View
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/shopping_cart_list"
-        android:layout_above="@id/center"
-        android:layout_toRightOf="@id/center"/>
+        android:id="@+id/curtain"
+        android:background="@color/black_overlay"
+        android:visibility="gone"/>
 
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/center"
-        android:layout_toRightOf="@id/center">
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:paddingTop="20dp"
+        android:paddingBottom="20dp"
+        android:paddingLeft="50dp"
+        android:paddingRight="50dp"
+        android:background="@android:color/white"
+        android:id="@+id/dialog"
+        android:visibility="gone">
 
-        <Button
+        <!-- Recoommendation popup-->
+        <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/pay"
-            android:layout_centerHorizontal="true"
-            android:layout_alignParentTop="true"
-            android:text="@string/shopping_pay"/>
+            android:id="@+id/pop_up_wrapper">
 
-        <ListView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/shopping_recommendation"
-            android:layout_below="@id/pay"/>
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/recommend_wrapper">
+                <ImageView
+                    android:layout_width="200dp"
+                    android:layout_height="150dp"
+                    android:layout_centerHorizontal="true"
+                    android:background="@color/recommend_background"
+                    android:id="@+id/recommend_iv"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/recommend_iv"
+                    android:gravity="center"
+                    tools:text="Item name/promotion contents\nPrice\nLocation: Lane 03 Shelf 02"
+                    android:layout_marginTop="10dp"
+                    android:textSize="16sp"
+                    android:textColor="@android:color/black"
+                    android:id="@+id/recommend_popup_tv"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/error_wrapper"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/error"
+                    android:textColor="@color/welcome_text_color"
+                    android:textSize="38sp"
+                    android:layout_centerHorizontal="true"
+                    android:textStyle="bold"
+                    android:id="@+id/error_tv"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/un_scanned"
+                    android:textColor="@color/welcome_text_color"
+                    android:layout_below="@id/error_tv"
+                    android:layout_centerHorizontal="true"
+                    android:gravity="center"
+                    android:textSize="26sp"/>
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+        <Button
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:background="@drawable/fnp_button"
+            android:layout_centerHorizontal="true"
+            android:text="@string/ok"
+            android:textColor="@android:color/white"
+            android:layout_below="@id/pop_up_wrapper"
+            android:id="@+id/recommend_ok"
+            android:textSize="20sp"/>
+
     </RelativeLayout>
 
 </RelativeLayout>
