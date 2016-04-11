@@ -462,7 +462,7 @@
             android:layout_height="100dp"
             android:orientation="horizontal"
             android:layout_alignParentBottom="true"
-            tools:visibility="gone"
+            tools:visibility="visible"
             android:id="@+id/pay_ll">
 
             <Button
@@ -497,12 +497,42 @@
             android:background="@color/recommend_background"
             android:layout_above="@id/pay_ll"
             android:id="@+id/shopping_line"/>
+        
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:layout_alignParentTop="true"
+            android:background="@color/shopping_list_background"
+            android:id="@+id/shopping_list_rl">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/shopping_list"
+                android:textSize="36sp"
+                android:textStyle="bold"
+                android:layout_marginLeft="30dp"
+                android:textColor="@color/welcome_text_color"
+                android:layout_margin="25dp"
+                android:id="@+id/list_tv"/>
+
+            <ListView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/list_tv"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="10dp"
+                android:id="@+id/shopping_list_lv"/>
+
+        </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_above="@id/shopping_line"
+            android:layout_below="@id/shopping_list_rl"
             android:id="@+id/shopping_cart_ll">
+            
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

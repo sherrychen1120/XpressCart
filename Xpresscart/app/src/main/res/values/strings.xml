@@ -12,11 +12,14 @@
 
     <string name="total_pay">Total: </string>
     <string name="cart_empty">Your cart is empty.</string>
+    <string name="cart_title">In Your Cart</string>
     <string name="cart_empty_scan">Please scan your first item before putting it into the cart.</string>
     <string name="removed_item">You have removed an item from your cart.</string>
     <string name="removed_scan">Please scan the item to remove it from the list</string>
 
     <string name="recommended_title">Recommended for You</string>
+
+    <string name="shopping_list">Your Shopping List</string>
 
     <string name="confirm_card">Confirm your card information</string>
     <string name="confirm_ok">Click on OK to finish payment</string>

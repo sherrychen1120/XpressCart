@@ -1,29 +1,18 @@
 package com.xcart16.xpresscart;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.app.PendingIntent;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.graphics.BitmapFactory;
-import android.hardware.usb.UsbDevice;
-import android.hardware.usb.UsbDeviceConnection;
-import android.hardware.usb.UsbManager;
 import android.media.AudioManager;
 import android.media.ToneGenerator;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.os.Handler;
-import android.text.Layout;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
-import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -31,10 +20,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.felhr.usbserial.UsbSerialDevice;
-import com.felhr.usbserial.UsbSerialInterface;
 import com.google.android.gms.vision.CameraSource;
-import com.google.android.gms.vision.Frame;
 import com.google.android.gms.vision.MultiProcessor;
 import com.google.android.gms.vision.barcode.Barcode;
 import com.google.android.gms.vision.barcode.BarcodeDetector;
@@ -43,12 +29,9 @@ import com.xcart16.xpresscart.itemclass.Item;
 import com.xcart16.xpresscart.itemclass.Result;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
-import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.Map;
 
 import io.card.payment.CardIOActivity;
 import io.card.payment.CreditCard;
@@ -69,7 +52,7 @@ public class ShoppingActivity extends AppCompatActivity implements CallBack {
     private View mContentView;
     private CameraSource cameraSource;
     private ListView cart;
-    private ShoppingItemAdapter cartAdapter;
+    private ShoppingCartAdapter cartAdapter;
     private boolean updatePause;
     private final ShoppingActivity activity = this;
     private static final int SCAN_REQUEST_CODE = 5;
@@ -108,6 +91,7 @@ public class ShoppingActivity extends AppCompatActivity implements CallBack {
     private int code;
     private TextView code_input;
     private boolean error;
+    private ListView shoppinglist;
 
 //    private UsbManager usbManager;
 //    private UsbDevice device;
@@ -123,7 +107,7 @@ public class ShoppingActivity extends AppCompatActivity implements CallBack {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         cart = (ListView) findViewById(R.id.shopping_cart_list);
-        cartAdapter = new ShoppingItemAdapter(this, new LinkedList<Item>());
+        cartAdapter = new ShoppingCartAdapter(this, new LinkedList<Item>());
         cart.setAdapter(cartAdapter);
 
         updatePause = false;
@@ -134,6 +118,7 @@ public class ShoppingActivity extends AppCompatActivity implements CallBack {
         curtain = findViewById(R.id.curtain);
         dialog = (RelativeLayout) findViewById(R.id.dialog);
         code_input = (TextView) findViewById(R.id.code_input);
+        shoppinglist = (ListView) findViewById(R.id.shopping_list_lv);
 
         findViewById(R.id.pay_btn).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -217,60 +202,65 @@ public class ShoppingActivity extends AppCompatActivity implements CallBack {
     }
 
     private void hardCodeArrayInit() {
-        hardCodeArray = new Item[6];
+        hardCodeArray = new Item[3];
         hardCodeArray[0] = new Item("Cheerios Oat Cereal (12OZ)", "0016000275263", 0.91, 3.94);
         hardCodeArray[0].setBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.cherrio_oat));
-        hardCodeArray[1] = new Item("Tide Sport Detergent (46FO)", "0037000875154", 3.52, 9.89);
-        hardCodeArray[1].setBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.tide_detergent));
-        hardCodeArray[2] = new Item("APPLE: McIntosh, large", "4019", 2, 2.98);
-        hardCodeArray[2].setBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.apple));
-        hardCodeArray[2].setCustomQuantity("2.00lb  @$1.49/lb");
-        hardCodeArray[3] = new Item("Scott Tissue 4PK", "0054000101830", 1.6, 4.49);
-        hardCodeArray[3].setBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.tissue));
-        hardCodeArray[4] = new Item("HS Itchy Scalp Care Shampoo (13.5FO)", "0037000062059", 0.79, 4.99);
-        hardCodeArray[4].setBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.hs_shampoo));
-        hardCodeArray[4].setLocation("Lane 1 Shelf 2-2");
-        hardCodeArray[5] = new Item("HS Itchy Scalp Care Conditioner(13.5FO)", "0037000473640", 0.82, 4.99);
-        hardCodeArray[5].setBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.hs_conditioner));
-        hardCodeArray[5].setLocation("Lane 1 Shelf 2-2");
+        hardCodeArray[1] = new Item("APPLE: McIntosh, large", "4019", 2, 2.98);
+        hardCodeArray[1].setBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.apple));
+        hardCodeArray[1].setCustomQuantity("2.00lb  @$1.49/lb");
+        hardCodeArray[2] = new Item("SG 135 Elbow Macaroni", "0033400601355", 1.69, 4.49);
+        hardCodeArray[2].setBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.tissue));
 
-        hardCodeArray[1].addSuggestion(hardCodeArray[4]);
-        hardCodeArray[1].addSuggestion(hardCodeArray[5]);
-        hardCodeArray[3].addSuggestion(hardCodeArray[4]);
-        hardCodeArray[3].addSuggestion(hardCodeArray[5]);
         //add buffer
         Item buffer = new Item("Ocean Spray Cranberry juice(64FO)", "0031200200723", 4.28, 2.49);
         buffer.setDiscount("2 for 4.00");
         buffer.setLocation("Lane 6 Shelf 2-2");
         buffer.setBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.cranberry_juice));
         hardCodeArray[0].addSuggestion(buffer);
-        hardCodeArray[2].addSuggestion(buffer);
-
-        buffer = new Item("L'Oreal Total Repair Shampoo (12.6FO)", "0071249278574", 0.66, 3.99);
-        buffer.setLocation("Lane 1 Shelf 1-4");
-        buffer.setBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.l_o_shampoo));
-        hardCodeArray[3].addSuggestion(buffer);
-        hardCodeArray[4].addSuggestion(buffer);
-        hardCodeArray[5].addSuggestion(buffer);
-
-        buffer = new Item("L'Oreal Total Repair Conditioner (12.6FO)", "0071249278581", 0.64, 3.99);
-        buffer.setLocation("Lane 1 Shelf 1-4");
-        buffer.setBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.l_o_conditioner));
-        hardCodeArray[3].addSuggestion(buffer);
-        hardCodeArray[4].addSuggestion(buffer);
-        hardCodeArray[5].addSuggestion(buffer);
+        hardCodeArray[1].addSuggestion(buffer);
 
         buffer = new Item("Kellogg's Special K Cereal (12OZ)", "0038000016110", 0.88, 3.29);
         buffer.setLocation("Lane 3 Shelf 2-4");
         buffer.setBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.kellogg_cereal));
         hardCodeArray[0].addSuggestion(buffer);
-        hardCodeArray[2].addSuggestion(buffer);
 
         buffer = new Item("Kellogg's Raisin Bran (13.7OZ)", "0038000596650", 1.33, 3.29);
         buffer.setLocation("Lane 3 Shelf 2-3");
         buffer.setBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.kellogg_bran));
         hardCodeArray[0].addSuggestion(buffer);
+
+        buffer = new Item("HS Itchy Scalp Care Shampoo (13.5FO)", "0037000062059", 4.99, 0.79);
+        buffer.setLocation("Lane 1 Shelf 2-2");
+        buffer.setBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.hs_shampoo));
+        hardCodeArray[1].addSuggestion(buffer);
+
+        buffer = new Item("HS Itchy Scalp Care Conditioner(13.5FO)", "0037000473640", 4.99, 0.82);
+        buffer.setLocation("Lane 1 Shelf 2-2");
+        buffer.setBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.hs_conditioner));
+        hardCodeArray[1].addSuggestion(buffer);
+
+        buffer = new Item("Hunts Tomato Sauce", "0027000390146", 1.39, 0.82);
+        buffer.setLocation("Lane 2 Shelf 5");
+        buffer.setBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.hunts_tomato_sauce));
         hardCodeArray[2].addSuggestion(buffer);
+
+        buffer = new Item("Bertolli Alfredo Sauce", "0036200219294", 2.49, 0.82);
+        buffer.setLocation("Lane 2 Shelf 1");
+        buffer.setBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.bertolli_alfredo_sauce));
+        hardCodeArray[2].addSuggestion(buffer);
+
+        buffer = new Item("SG 109 Thin Spaghetti", "0033400601096", 1.69, 0.82);
+        buffer.setLocation("Lane 2 Shelf 3");
+        buffer.setBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.thin_spaghetti));
+        hardCodeArray[2].addSuggestion(buffer);
+
+        LinkedList<Item> list = new LinkedList<>();
+        list.add(new Item("Cereal", "21", 3, 2));
+        list.add(new Item("Apple", "0000", 1, 1));
+        list.add(new Item("Pasta", "333", 2,1));
+
+        ShoppingListAdapter adapter = new ShoppingListAdapter(this, list);
+        shoppinglist.setAdapter(adapter);
     }
 
     private void codeInit() {
@@ -364,19 +354,14 @@ public class ShoppingActivity extends AppCompatActivity implements CallBack {
     }
 
     protected void help() {
-        if (idcount >= 7) {
+        if (idcount >= 5) {
             cameraSource.release();
             Intent intent = new Intent(this, ShoppingActivity.class);
             startActivity(intent);
             finish();
             return;
         }
-        try {
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        if (idcount == 2) {
+        if (idcount == 1) {
             idcount ++;
             runOnUiThread(new Runnable() {
                 @Override
@@ -401,11 +386,6 @@ public class ShoppingActivity extends AppCompatActivity implements CallBack {
                     findViewById(R.id.remove_help).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            try {
-                                Thread.sleep(5000);
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
@@ -415,8 +395,8 @@ public class ShoppingActivity extends AppCompatActivity implements CallBack {
                                     FrameLayout frame = (FrameLayout) findViewById(R.id.remove_frame);
                                     frame.getChildAt(0).setVisibility(View.GONE);
                                     bannerwrapper.setVisibility(View.GONE);
-                                    cartAdapter.getList().remove(hardCodeArray[1]);
-                                    amount -= hardCodeArray[1].getPrice();
+                                    cartAdapter.getList().remove(hardCodeArray[0]);
+                                    amount -= hardCodeArray[0].getPrice();
                                     cartAdapter.notifyDataSetChanged();
                                     NumberFormat formatter = new DecimalFormat("#0.00");
                                     StringBuilder sb = new StringBuilder().append("Total: $").append(formatter.format(amount));
@@ -429,12 +409,8 @@ public class ShoppingActivity extends AppCompatActivity implements CallBack {
                 }
             });
             return;
-        }else if (idcount == 6 && !error) {
-            try {
-                Thread.sleep(10000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+        }
+        else if (idcount == 4 && !error) {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
@@ -463,12 +439,13 @@ public class ShoppingActivity extends AppCompatActivity implements CallBack {
                     });
                 }
             });
+            idcount++;
             return;
         }
         ToneGenerator toneG = new ToneGenerator(AudioManager.STREAM_ALARM, 100);
         toneG.startTone(ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD, 200);
         int id = idcount;
-        if (idcount >= 2) {
+        if (idcount >= 1) {
             id = idcount - 1;
         }
         idcount++;
@@ -485,7 +462,7 @@ public class ShoppingActivity extends AppCompatActivity implements CallBack {
                 curtain.setBackgroundResource(R.color.welcome_text_color);
                 curtain.setVisibility(View.VISIBLE);
                 TextView tv = (TextView) findViewById(R.id.empty_tv_1);
-                tv.setText("In Your Cart");
+                tv.setText(R.string.cart_title);
                 amount += i.getPrice();
                 NumberFormat formatter = new DecimalFormat("#0.00");
                 StringBuilder sb = new StringBuilder().append("Total: $").append(formatter.format(amount));
@@ -724,6 +701,7 @@ public class ShoppingActivity extends AppCompatActivity implements CallBack {
             }
         }
     }
+
 
 //    private final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() { //Broadcast Receiver to automatically start and stop the Serial connection.
 //        @Override

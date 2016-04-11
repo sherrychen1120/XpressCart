@@ -9,6 +9,7 @@
     <color name="list_background">#F1F5DA</color>
     <color name="recommend_background">#559D3F</color>
     <color name="button_background">#C0D53A</color>
+    <color name="shopping_list_background">#94CE58</color>
 
     <color name="black_overlay">#66000000</color>
 </resources>

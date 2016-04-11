@@ -14,13 +14,13 @@ import java.util.List;
 /**
  * Created by Jason on 3/8/2016.
  */
-public class ShoppingItemAdapter extends ArrayAdapter<Item> {
+public class ShoppingCartAdapter extends ArrayAdapter<Item> {
 
     private Context context;
     private List<Item> items;
 
-    public ShoppingItemAdapter (Context context, List<Item> items) {
-        super(context, R.layout.shopping_list_item, items);
+    public ShoppingCartAdapter(Context context, List<Item> items) {
+        super(context, R.layout.shopping_cart_item, items);
         this.context = context;
         this.items = items;
     }
@@ -28,7 +28,7 @@ public class ShoppingItemAdapter extends ArrayAdapter<Item> {
     @Override
     public View getView (int position, View view, ViewGroup parent) {
         if (view == null) {
-            view = LayoutInflater.from(context).inflate(R.layout.shopping_list_item, parent, false);
+            view = LayoutInflater.from(context).inflate(R.layout.shopping_cart_item, parent, false);
         }
         Item item = getItem(position);
         ((TextView) view.findViewById(R.id.shopping_item_name)).setText(item.getName());
