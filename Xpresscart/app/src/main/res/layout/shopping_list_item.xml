@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal" android:layout_width="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="match_parent">
@@ -17,6 +17,18 @@
         android:layout_height="wrap_content"
         tools:text="@string/app_name"
         android:textColor="@android:color/black"
-        android:id="@+id/shopping_list_name"/>
+        android:id="@+id/shopping_list_name"
+        android:layout_toRightOf="@id/shopping_list_checkbox"
+        android:layout_centerVertical="true"/>
 
-</LinearLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="20dp"
+        android:id="@+id/shopping_list_location"
+        android:textColor="@android:color/black"
+        android:layout_centerVertical="true"/>
+
+</RelativeLayout>

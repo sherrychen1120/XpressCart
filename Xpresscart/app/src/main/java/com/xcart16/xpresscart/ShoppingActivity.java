@@ -92,6 +92,7 @@ public class ShoppingActivity extends AppCompatActivity implements CallBack {
     private TextView code_input;
     private boolean error;
     private ListView shoppinglist;
+    private boolean show;
 
 //    private UsbManager usbManager;
 //    private UsbDevice device;
@@ -111,6 +112,7 @@ public class ShoppingActivity extends AppCompatActivity implements CallBack {
         cart.setAdapter(cartAdapter);
 
         updatePause = false;
+        show = false;
 
         shoppingwrapper = (RelativeLayout) findViewById(R.id.shopping_wrapper);
         bannerwrapper = (RelativeLayout) findViewById(R.id.banner_wrapper);
@@ -123,6 +125,7 @@ public class ShoppingActivity extends AppCompatActivity implements CallBack {
         findViewById(R.id.pay_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                v.setVisibility(View.GONE);
                 try {
                     cameraSource.release();
                 } catch (NullPointerException e){
@@ -179,6 +182,14 @@ public class ShoppingActivity extends AppCompatActivity implements CallBack {
                     //ignored, it's just a check
                 }
                 startActivity(new Intent(activity, FinishActivity.class));
+            }
+        });
+
+        findViewById(R.id.empty_tv_1).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                findViewById(R.id.shopping_list_rl).setVisibility(show ? View.VISIBLE : View.GONE);
+                show = !show;
             }
         });
 
@@ -255,9 +266,15 @@ public class ShoppingActivity extends AppCompatActivity implements CallBack {
         hardCodeArray[2].addSuggestion(buffer);
 
         LinkedList<Item> list = new LinkedList<>();
-        list.add(new Item("Cereal", "21", 3, 2));
-        list.add(new Item("Apple", "0000", 1, 1));
-        list.add(new Item("Pasta", "333", 2,1));
+        buffer = new Item("Cereal", "21", 3, 2);
+        buffer.setLocation("Lane 3 Shelf 2-4");
+        list.add(buffer);
+        buffer = new Item("Apple", "0000", 1, 1);
+        buffer.setLocation("Lane 4 Shelf 1-2");
+        list.add(buffer);
+        buffer = new Item("Pasta", "333", 2,1);
+        buffer.setLocation("Lane 2 Shelf 3");
+        list.add(buffer);
 
         ShoppingListAdapter adapter = new ShoppingListAdapter(this, list);
         shoppinglist.setAdapter(adapter);
@@ -354,7 +371,7 @@ public class ShoppingActivity extends AppCompatActivity implements CallBack {
     }
 
     protected void help() {
-        if (idcount >= 5) {
+        if (idcount >= 6) {
             cameraSource.release();
             Intent intent = new Intent(this, ShoppingActivity.class);
             startActivity(intent);

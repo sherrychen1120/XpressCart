@@ -49,6 +49,7 @@ public class ShoppingListAdapter extends ArrayAdapter<Item> {
             }
         });
         checkbox.setChecked(map.get(item));
+        ((TextView) view.findViewById(R.id.shopping_list_location)).setText(item.getLocation());
         return view;
     }
 }
